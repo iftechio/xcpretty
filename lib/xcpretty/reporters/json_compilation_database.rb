@@ -44,7 +44,7 @@ module XCPretty
     def format_swift_compile_command(compiler_command)
       directory = '/'
 
-      cmd = compiler_command.split(' ')
+      cmd = compiler_command.split(/(?<!\\) /)
       input_file_list = cmd.find { |n| n.end_with?('SwiftFileList') }.delete_prefix("@")
       File.open(input_file_list).each do |line|
         @compilation_units << {arguments: cmd,
