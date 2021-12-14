@@ -36,7 +36,7 @@ module XCPretty
       cmd = compiler_command
       cmd = cmd.gsub(/(\-include)\s.*\.pch/, "\\1 #{@pch_path}") if @pch_path
 
-      @compilation_units << {command: cmd,
+      @compilation_units << {arguments: cmd,
                              file: @current_path,
                              directory: directory}
     end
@@ -45,7 +45,7 @@ module XCPretty
       directory = '/'
 
       cmd = compiler_command
-      @compilation_units << {command: cmd,
+      @compilation_units << {arguments: cmd,
                              file: @current_path,
                              directory: directory} 
       return EMPTY

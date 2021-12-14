@@ -64,7 +64,7 @@ module XCPretty
 
     # @regex Captured groups
     # $1 compiler_command
-    SWIFT_COMPILE_COMMAND_MATCHER = /^\s*(.*swift-frontend.*-c.*)$/
+    SWIFT_COMPILE_COMMAND_MATCHER = /^\s*(.*swift-frontend -frontend -c.*)$/
 
     # @regex Captured groups
     # $1 file_path
