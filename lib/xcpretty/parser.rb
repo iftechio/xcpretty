@@ -63,6 +63,10 @@ module XCPretty
     COMPILE_COMMAND_MATCHER = /^\s*(.*clang\s.*\s\-c\s(.*\.(?:m|mm|c|cc|cpp|cxx))\s.*\.o)$/
 
     # @regex Captured groups
+    # $1 compiler_command
+    SWIFT_COMPILE_COMMAND_MATCHER = /^\s*(.*swift-frontend.*-c.*)$/
+
+    # @regex Captured groups
     # $1 file_path
     # $2 file_name (e.g. MainMenu.xib)
     COMPILE_XIB_MATCHER = /^CompileXIB\s(.*\/(.*\.xib))/
@@ -346,6 +350,12 @@ module XCPretty
         formatter.format_compile($2, $1)
       when COMPILE_COMMAND_MATCHER
         formatter.format_compile_command($1, $2)
+      when SWIFT_COMPILE_COMMAND_MATCHER
+        if formatter.is_a?(JSONCompilationDatabase)
+          formatter.format_swift_compile_command($1)
+        else
+          return ''.freeze
+        end
       when COMPILE_XIB_MATCHER
         formatter.format_compile_xib($2, $1)
       when COMPILE_STORYBOARD_MATCHER

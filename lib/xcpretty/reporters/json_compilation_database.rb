@@ -41,6 +41,16 @@ module XCPretty
                              directory: directory}
     end
 
+    def format_swift_compile_command(compiler_command)
+      directory = '/'
+
+      cmd = compiler_command
+      @compilation_units << {command: cmd,
+                             file: @current_path,
+                             directory: directory} 
+      return EMPTY
+    end
+
     def write_report
       File.open(@filepath, 'w') do |f|
         f.write(@compilation_units.to_json)
