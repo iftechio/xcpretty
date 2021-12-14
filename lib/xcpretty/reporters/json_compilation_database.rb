@@ -36,7 +36,7 @@ module XCPretty
       cmd = compiler_command
       cmd = cmd.gsub(/(\-include)\s.*\.pch/, "\\1 #{@pch_path}") if @pch_path
 
-      @compilation_units << {arguments: cmd,
+      @compilation_units << {arguments: cmd.split(' '),
                              file: @current_path,
                              directory: directory}
     end
@@ -44,10 +44,13 @@ module XCPretty
     def format_swift_compile_command(compiler_command)
       directory = '/'
 
-      cmd = compiler_command
-      @compilation_units << {arguments: cmd,
-                             file: @current_path,
+      cmd = compiler_command.split(' ')
+      input_file_list = cmd.find { |n| n.end_with?('SwiftFileList') }.delete_prefix("@")
+      File.open(input_file_list).each do |line|
+        @compilation_units << {arguments: cmd,
+                             file: line,
                              directory: directory} 
+      end
       return EMPTY
     end
 
