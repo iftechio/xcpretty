@@ -45,6 +45,8 @@ module XCPretty
       directory = '/'
 
       cmd = compiler_command.split(/(?<!\\) /).map { |s| s.gsub(/\\/, '') }
+      useless_args_count = cmd.index { |arg| arg.end_with?('swiftc') }
+      cmd = cmd.drop(useless_args_count)
       input_file_list = cmd.find { |n| n.end_with?('SwiftFileList') }.delete_prefix("@")
       input_file_list_path = Pathname.new(input_file_list)
       
